@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/swiper-3.4.2.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/css/indexs.css"/>
+    <script src="../../static/js/swiper-3.4.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="../../static/css/index3.css" type="text/css" >
+    <style>
+        div.aaa{float: left;
+        padding-bottom: 50px;
+        padding-right: 25px;padding-left: 25px;
+        }
+        body {
+    background-image: url(../../static/images/图片的URL.jpg);
+        background-size: 100% 100%;
+    }
+        h1,h3,a.s{color:red}
+    </style>
+</head>
+<body>
+<h3>欢迎来到电影页面</h3>
+
+<div class="shoulder">
+
+			<div class="shoulderA">
+
+				<span></span>
+
+				<h1>最新电影</h1>
+
+			</div>
+
+			<div class="shoulderB">
+
+				<ul>
+                    {% for i in paging.display_data %}
+                        <div class="aaa">
+					<li><img src="../../static/images/52_200 150.jpg"/><span><a class="s" href="#">{{ i.m_name }}</a><br><b>{{ i.m_ytpe }}</b></span></li>
+                        </div>
+                    {% endfor %}
+				</ul>
+
+			</div>
+
+		</div>
+ <table>
+        <tr class="pagination">
+            {# 首页 #}
+            <td><a href="{% url 'movies' paging.home_page %}"><input type="button" value="首页"></a></td>
+            {# 是否有上一页 #}
+            {% if paging.has_previous %}
+                <td><a href="{% url 'movies' paging.previous_page %}" aria-label="Previous"><span
+                        aria-hidden="true"><input type="button" value="«"></span></a></td>
+            {% else %}
+                <td class="disabled"><a href="{% url 'movies' paging.previous_page %}" aria-label="Previous"><span
+                        aria-hidden="true"><input type="button" value="«"></span></a></td>
+            {% endif %}
+            {# 分页条展示 #}
+            {% for page in paging.show_page %}
+                {% if page == paging.page_now %}
+                    <td class="active"><a href="{% url 'movies' page %}">{{ page }}</a></td>
+                {% else %}
+                    <td><a href="{% url 'movies' page %}">{{ page }}</a></td>
+                {% endif %}
+            {% endfor %}
+            {# 是否有下一页 #}
+            {% if paging.has_next %}
+                <td><a href="{% url 'movies' paging.next_page %}" aria-label="Next"><span aria-hidden="true"><input type="button" value="»"></span></a>
+                </td>
+            {% else %}
+                <td class="disabled"><a href="{% url 'movies' paging.next_page %}" aria-label="Next"><span
+                        aria-hidden="true"><input type="button" value="»"></span></a></td>
+            {% endif %}
+            {# 尾页 #}
+            <td><a href="{% url 'movies' paging.trailer_page %}"><input type="button" value="尾页"></a></td>
+        </tr>
+    </table>
+</body>
+</html>

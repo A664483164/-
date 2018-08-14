@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+    <link rel="stylesheet" href="../../static/css/index3.css" type="text/css" >
+    <style type="text/css">
+    body {
+    background-image: url(../../static/images/图片的URL.jpg);
+        background-size: 100% 100%;
+    }
+    </style>
+</head>
+<body>
+    <h3 ><font color="#8b0000">欢迎来到用户列表页面</font></h3>
+    <center>
+                            <form action="/user_List/0" method="post">
+                                <input name="u_id">&nbsp;&nbsp;&nbsp;
+                                <input type="submit" value="查询">
+                            </form>
+    </center>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th width="120">编号</th>
+                <th width="120">年龄</th>
+                <th width="120">性别</th>
+                <th width="300">职业</th>
+                <th width="170">邮编</th>
+                <th width="100">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for data in paging.display_data %}
+                <tr>
+                    <td>{{ data.u_id }}</td>
+                    <td>{{ data.age }}</td>
+                    <td>
+                        {% if data.sex == 'F'%}
+                            女
+                        {% else  %}
+                            男
+                        {% endif %}
+                        </td>
+                    <td>
+                        {% if data.job == '0'%}
+                            其他
+                            {% elif data.job == '1' %}
+                            学术/教育家
+                            {% elif data.job == '2' %}
+                            艺术家
+                            {% elif data.job == '3' %}
+                            文书/行政
+                            {% elif data.job == '4' %}
+                            大学/研究生
+                            {% elif data.job == '5' %}
+                            客户服务
+                            {% elif data.job == '6' %}
+                            医生/保健
+                            {% elif data.job == '7' %}
+                            执行/管理
+                            {% elif data.job == '8' %}
+                            农民
+                            {% elif data.job == '9' %}
+                            家庭主妇
+                            {% elif data.job == '10' %}
+                            K-12学生
+                            {% elif data.job == '11' %}
+                            律师
+                            {% elif data.job == '12' %}
+                            程序员
+                            {% elif data.job == '13' %}
+                            退休
+                            {% elif data.job == '14' %}
+                            销售/营销
+                            {% elif data.job == '15' %}
+                            科学家
+                            {% elif data.job == '16' %}
+                            个体经营
+                            {% elif data.job == '17' %}
+                            技术员/工程师
+                            {% elif data.job == '18' %}
+                            商人/工匠
+                            {% elif data.job == '19' %}
+                            失业
+                            {% elif data.job == '20' %}
+                            作家
+                        {% endif %}
+                        </td>
+                    <td>{{ data.time }}</td>
+                    <td><a href="/to_user_home/{{ data.u_id }}">查看</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    <table>
+        <tr class="pagination">
+            {# 首页 #}
+            <td><a href="{% url 'user_List' paging.home_page %}"><input type="button" value="首页"></a></td>
+            {# 是否有上一页 #}
+            {% if paging.has_previous %}
+                <td><a href="{% url 'user_List' paging.previous_page %}" aria-label="Previous"><span
+                        aria-hidden="true"><input type="button" value="«"></span></a></td>
+            {% else %}
+                <td class="disabled"><a href="{% url 'user_List' paging.previous_page %}" aria-label="Previous"><span
+                        aria-hidden="true"><input type="button" value="«"></span></a></td>
+            {% endif %}
+            {# 分页条展示 #}
+            {% for page in paging.show_page %}
+                {% if page == paging.page_now %}
+                    <td class="active"><a href="{% url 'user_List' page %}">{{ page }}</a></td>
+                {% else %}
+                    <td><a href="{% url 'user_List' page %}">{{ page }}</a></td>
+                {% endif %}
+            {% endfor %}
+            {# 是否有下一页 #}
+            {% if paging.has_next %}
+                <td><a href="{% url 'user_List' paging.next_page %}" aria-label="Next"><span aria-hidden="true"><input type="button" value="»"></span></a>
+                </td>
+            {% else %}
+                <td class="disabled"><a href="{% url 'user_List' paging.next_page %}" aria-label="Next"><span
+                        aria-hidden="true"><input type="button" value="»"></span></a></td>
+            {% endif %}
+            {# 尾页 #}
+            <td><a href="{% url 'user_List' paging.trailer_page %}"><input type="button" value="尾页"></a></td>
+        </tr>
+    </table>
+</body>
+</html>
